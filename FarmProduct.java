@@ -1,0 +1,2 @@
+interface FarmProduct extends Product {
+}

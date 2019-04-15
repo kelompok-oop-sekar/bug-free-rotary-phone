@@ -1,0 +1,2 @@
+interface SideProduct extends Product {
+}

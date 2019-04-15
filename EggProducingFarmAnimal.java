@@ -1,0 +1,2 @@
+interface EggProducingFarmAnimal extends FarmAnimal {
+}
