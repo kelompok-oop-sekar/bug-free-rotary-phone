@@ -1,2 +1,2 @@
-interface MilkProducingFarmAnimal extends FarmAnimal {
+interface MilkProducingFarmAnimal {
 }

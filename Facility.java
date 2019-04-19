@@ -1,6 +1,8 @@
-abstract class Facility implements Cell {
-	public boolean isGrowable() {
-		return false;
-	}
-	abstract void function(Player o);
+abstract class Facility extends Cell {
+        public Facility(int x, int y) {
+                super(x, y);
+        }
+        public boolean isGrowable() {
+                return false;
+        }
 }

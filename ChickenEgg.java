@@ -1,0 +1,2 @@
+class ChickenEgg implements FarmProduct {
+}

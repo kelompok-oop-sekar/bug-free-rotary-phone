@@ -1,0 +1,2 @@
+class DuckEgg implements FarmProduct {
+}

@@ -1,11 +1,13 @@
 class Barn extends Land {
-	// Untuk beternak hewan penghasil daging.
-	char render() {
-		if (hasGrass()) {
-			return '@';
-		}
-		else {
-			return 'x';
-		}
-	}
+        public Barn(int x, int y) {
+                super(x, y);
+        }
+        public char render() {
+                if (hasGrass()) {
+                        return '@';
+                }
+                else {
+                        return 'x';
+                }
+        }
 }
