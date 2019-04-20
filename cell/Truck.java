@@ -12,6 +12,10 @@ public class Truck extends Facility {
 
 	public static void function(Player o) {
 		List<Product> bag = o.getBag();
+		for (Product product : bag) {
+			o.addMoney(product.getPrice());
+		}
+		o.emptyBag();
 	}
 
 	public char render() {

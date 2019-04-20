@@ -1,4 +1,4 @@
 package product;
 
-interface FarmProduct extends Product {
+public interface FarmProduct extends Product {
 }

@@ -1,6 +1,6 @@
 package animal;
 
-public class Cow extends FarmAnimal implements MeatProducingFarmAnimal, MilkProducingFarmAnimal {
+public class Cow extends MilkProducingFarmAnimal {
 	public Cow(int x, int y) {
 		super(x, y);
 	}

@@ -1,22 +1,33 @@
 package general;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import animal.Chicken;
 import animal.Cow;
+import animal.FarmAnimal;
 import animal.Sheep;
+import cell.Land;
+import cell.Mixer;
+import cell.Truck;
 import cell.Well;
+import product.BuffaloMeat;
 import product.BuffaloMilk;
 import product.ChickenEgg;
+import product.ChickenMeat;
+import product.CowMeat;
 import product.CowMilk;
 import product.DuckEgg;
+import product.DuckMeat;
+import product.GoatMeat;
 import product.GoatMilk;
 import product.Product;
+import product.SheepMeat;
 import product.SheepMilk;
 
 public class Player extends Renderable {
 	private int water;
-	private List<Product> bag;
+	private List<Product> bag = new LinkedList<>();
 	private int money;
 
 	public Player(int x, int y) {
@@ -47,6 +58,18 @@ public class Player extends Renderable {
 		return bag;
 	}
 
+	public void emptyBag() {
+		bag = new LinkedList<>();
+	}
+	
+	public void showBag() {
+		System.out.println("Bag:");
+		for (int i = 0; i < bag.size(); i++) {
+			System.out.printf("[%d] %s\n", i, bag.get(i).getName());
+		}
+		wait(1500);
+	}
+	
 	public char render() {
 		return 'P';
 	}
@@ -193,10 +216,10 @@ public class Player extends Renderable {
 			Well.function(this);
 			break;
 		case 'T':
-			// Truck.function(this);
+			Truck.function(this);
 			break;
 		case 'M':
-			// Mixer.function(this);
+			Mixer.function(this);
 			break;
 		case 'S':
 			this.bag.add(new SheepMilk());
@@ -249,6 +272,88 @@ public class Player extends Renderable {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	public void kill(char symbol) {
+		switch (symbol) {
+		case 'S':
+			this.bag.add(new SheepMeat());
+			break;
+		case 'C':
+			this.bag.add(new CowMeat());
+			break;
+		case 'B':
+			this.bag.add(new BuffaloMeat());
+			break;
+		case 'G':
+			this.bag.add(new GoatMeat());
+			break;
+		case 'H':
+			this.bag.add(new ChickenMeat());
+			break;
+		case 'D':
+			this.bag.add(new DuckMeat());
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void kill(char[][] grid, String direction, List<FarmAnimal> animals) {
+		int x = 0;
+		int y = 0;
+		switch (direction) {
+		case "W":
+		case "w":
+			if (this.getY() > 0) {
+				x = this.getX();
+				y = this.getY() - 1;
+				kill(grid[x][y]);
+			}
+			break;
+		case "S":
+		case "s":
+			if (this.getY() < 7) {
+				x = this.getX();
+				y = this.getY() + 1;
+				kill(grid[this.getX()][this.getY() + 1]);
+			}
+			break;
+		case "D":
+		case "d":
+			if (this.getX() < 7) {
+				x = this.getX() + 1;
+				y = this.getY();
+				kill(grid[this.getX() + 1][this.getY()]);
+			}
+			break;
+		case "A":
+		case "a":
+			if (this.getX() > 0) {
+				x = this.getX() - 1;
+				y = this.getY();
+				kill(grid[this.getX() - 1][this.getY()]);
+			}
+			break;
+		default:
+			return;
+		}
+		for (FarmAnimal animal : animals) {
+			if (animal.getX() == x && animal.getY() == y) {
+				animals.remove(animal);
+			}
+		}
+	}
+
+	public void grow(char[][] grid, List<Land> lands) {
+		if (water > 0) {
+			for (Land land : lands) {
+				if (land.getX() == this.getX() && land.getY() == this.getY()) {
+					land.growGrass();
+				}
+			}
+			water--;
 		}
 	}
 }

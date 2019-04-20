@@ -55,7 +55,7 @@ class Main {
 		player.addMoney(2500);
 		player.setWater(10);
 
-		while (true) {
+		while (farmAnimals.size() > 0) {
 			for (Land l : lands) {
 				grid[l.getX()][l.getY()] = l.render();
 			}
@@ -97,17 +97,29 @@ class Main {
 				direction = scanner.next();
 				player.interact(grid, direction);
 				break;
+			case "B":
+			case "b":
+				showMap(grid);
+				player.showBag();
 			case "K":
 			case "k":
+				showMap(grid);
+				showDirection();
+				direction = scanner.next();
+				player.kill(grid, direction, farmAnimals);
 				break;
 			case "G":
 			case "g":
+				player.grow(grid, lands);
 				break;
 			default:
 				break;
 			}
+			for (FarmAnimal animal : farmAnimals) {
+				animal.move(grid);
+			}
 		}
-		// scanner.close();
+		scanner.close();
 	}
 
 	private static Player player = new Player(1, 1);
@@ -142,7 +154,7 @@ class Main {
 	}
 
 	private static void showCommand() {
-		System.out.println("Command:\n[M]ove\n[T]alk\n[I]nteract\n[K]ill\n[G]row");
+		System.out.println("Command:\n[M]ove\n[T]alk\n[I]nteract\n[B]ag\n[K]ill\n[G]row");
 	}
 
 	private static void showDirection() {
@@ -158,7 +170,9 @@ class Main {
 		try {
 			pb.inheritIO().start().waitFor();
 		} catch (IOException ioe) {
+			System.out.println("I/O Error: " + ioe);
 		} catch (InterruptedException ie) {
+			System.out.println("Interrupted: " + ie);
 		}
 	}
 

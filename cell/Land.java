@@ -10,6 +10,9 @@ public abstract class Land extends Cell {
 	public void growGrass() {
 		grass = true;
 	}
+	public void removeGrass() {
+		grass = false;
+	}
 
 	public boolean hasGrass() {
 		return grass;

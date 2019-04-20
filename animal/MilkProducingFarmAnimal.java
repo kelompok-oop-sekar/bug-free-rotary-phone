@@ -1,4 +1,70 @@
 package animal;
 
-interface MilkProducingFarmAnimal {
+import java.util.Random;
+
+public abstract class MilkProducingFarmAnimal extends FarmAnimal {
+
+	public MilkProducingFarmAnimal(int x, int y) {
+		super(x, y);
+	}
+
+	@Override
+	public void move(char[][] grid) {
+		Random r = new Random();
+		int direction = r.nextInt(4);
+		int x = getX();
+		int y = getY();
+		switch (direction) {
+		case 0:
+			if (y > 0) {
+				switch (grid[x][y - 1]) {
+				case 'x':
+				case '@':
+					this.subY();
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+		case 1:
+			if (y < 7) {
+				switch (grid[x][y + 1]) {
+				case 'x':
+				case '@':
+					this.addY();
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+		case 2:
+			if (x > 0) {
+				switch (grid[x - 1][y]) {
+				case 'x':
+				case '@':
+					this.subX();
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+		case 3:
+			if (x < 7) {
+				switch (grid[x + 1][y]) {
+				case 'x':
+				case '@':
+					this.addX();
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+		default:
+			break;
+		}
+	}
 }
