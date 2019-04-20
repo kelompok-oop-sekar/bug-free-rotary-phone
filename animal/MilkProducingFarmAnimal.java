@@ -1,15 +1,20 @@
 package animal;
 
+import java.util.List;
 import java.util.Random;
 
-public abstract class MilkProducingFarmAnimal extends FarmAnimal {
+import cell.Land;
 
+public abstract class MilkProducingFarmAnimal extends FarmAnimal {
 	public MilkProducingFarmAnimal(int x, int y) {
 		super(x, y);
 	}
 
 	@Override
-	public void move(char[][] grid) {
+	public void move(char[][] grid, List<Land> lands) {
+		if (isHungry()) {
+			eat(grid, lands);
+		}
 		Random r = new Random();
 		int direction = r.nextInt(4);
 		int x = getX();
@@ -21,6 +26,7 @@ public abstract class MilkProducingFarmAnimal extends FarmAnimal {
 				case 'x':
 				case '@':
 					this.subY();
+					subStamina();
 					break;
 				default:
 					break;
@@ -33,6 +39,7 @@ public abstract class MilkProducingFarmAnimal extends FarmAnimal {
 				case 'x':
 				case '@':
 					this.addY();
+					subStamina();
 					break;
 				default:
 					break;
@@ -45,6 +52,7 @@ public abstract class MilkProducingFarmAnimal extends FarmAnimal {
 				case 'x':
 				case '@':
 					this.subX();
+					subStamina();
 					break;
 				default:
 					break;
@@ -57,6 +65,7 @@ public abstract class MilkProducingFarmAnimal extends FarmAnimal {
 				case 'x':
 				case '@':
 					this.addX();
+					subStamina();
 					break;
 				default:
 					break;

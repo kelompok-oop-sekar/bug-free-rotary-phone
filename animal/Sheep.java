@@ -6,7 +6,11 @@ public class Sheep extends MilkProducingFarmAnimal {
 	}
 
 	public char render() {
-		return 'S';
+		if (isHungry()) {
+			return 's';
+		} else {
+			return 'S';
+		}
 	}
 
 	public static String voice() {

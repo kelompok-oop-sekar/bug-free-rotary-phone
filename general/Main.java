@@ -1,6 +1,10 @@
 package general;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 import animal.Chicken;
 import animal.Cow;
@@ -14,8 +18,6 @@ import cell.Land;
 import cell.Mixer;
 import cell.Truck;
 import cell.Well;
-
-import java.io.*;
 
 class Main {
 	public static void main(String[] args) {
@@ -95,12 +97,13 @@ class Main {
 				showMap(grid);
 				showDirection();
 				direction = scanner.next();
-				player.interact(grid, direction);
+				player.interact(grid, direction, farmAnimals);
 				break;
 			case "B":
 			case "b":
 				showMap(grid);
 				player.showBag();
+				break;
 			case "K":
 			case "k":
 				showMap(grid);
@@ -115,9 +118,8 @@ class Main {
 			default:
 				break;
 			}
-			for (FarmAnimal animal : farmAnimals) {
-				animal.move(grid);
-			}
+			moveAll(farmAnimals, lands);
+			checkHealth(farmAnimals);
 		}
 		scanner.close();
 	}
@@ -175,5 +177,16 @@ class Main {
 			System.out.println("Interrupted: " + ie);
 		}
 	}
-
+	private static void checkHealth(List<FarmAnimal> animals) {
+		for (FarmAnimal animal : animals) {
+			if (animal.isDead()) {
+				animals.remove(animal);
+			}
+		}
+	}
+	private static void moveAll(List<FarmAnimal> animals, List<Land> lands) {
+		for (FarmAnimal animal : animals) {
+			animal.move(grid, lands);
+		}
+	}
 }

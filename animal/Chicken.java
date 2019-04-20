@@ -6,7 +6,11 @@ public class Chicken extends EggProducingFarmAnimal {
 	}
 
 	public char render() {
-		return 'H';
+		if (isHungry()) {
+			return 'h';
+		} else {
+			return 'H';
+		}
 	}
 
 	public static String voice() {

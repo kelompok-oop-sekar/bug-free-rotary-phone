@@ -61,7 +61,7 @@ public class Player extends Renderable {
 	public void emptyBag() {
 		bag = new LinkedList<>();
 	}
-	
+
 	public void showBag() {
 		System.out.println("Bag:");
 		for (int i = 0; i < bag.size(); i++) {
@@ -69,7 +69,7 @@ public class Player extends Renderable {
 		}
 		wait(1500);
 	}
-	
+
 	public char render() {
 		return 'P';
 	}
@@ -210,7 +210,7 @@ public class Player extends Renderable {
 		}
 	}
 
-	public void interact(char symbol) {
+	private void interact(char symbol, FarmAnimal animal) {
 		switch (symbol) {
 		case 'W':
 			Well.function(this);
@@ -222,59 +222,111 @@ public class Player extends Renderable {
 			Mixer.function(this);
 			break;
 		case 'S':
-			this.bag.add(new SheepMilk());
+			if (animal.isProductive()) {
+				this.bag.add(new SheepMilk());
+				animal.setProductive(false);
+			}
 			break;
 		case 'C':
-			this.bag.add(new CowMilk());
+			if (animal.isProductive()) {
+				this.bag.add(new CowMilk());
+				animal.setProductive(false);
+			}
 			break;
 		case 'B':
-			this.bag.add(new BuffaloMilk());
+			if (animal.isProductive()) {
+				this.bag.add(new BuffaloMilk());
+				animal.setProductive(false);
+			}
 			break;
 		case 'G':
-			this.bag.add(new GoatMilk());
+			if (animal.isProductive()) {
+				this.bag.add(new GoatMilk());
+				animal.setProductive(false);
+			}
 			break;
 		case 'H':
-			this.bag.add(new ChickenEgg());
+			if (animal.isProductive()) {
+				this.bag.add(new ChickenEgg());
+				animal.setProductive(false);
+			}
 			break;
 		case 'D':
-			this.bag.add(new DuckEgg());
+			if (animal.isProductive()) {
+				this.bag.add(new DuckEgg());
+				animal.setProductive(false);
+			}
 			break;
 		default:
 			break;
 		}
 	}
 
-	public void interact(char[][] grid, String direction) {
+	public void interact(char[][] grid, String direction, List<FarmAnimal> animals) {
+		int x = 0;
+		int y = 0;
 		switch (direction) {
 		case "W":
 		case "w":
 			if (this.getY() > 0) {
-				interact(grid[this.getX()][this.getY() - 1]);
+				x = getX();
+				y = getY() - 1;
+				FarmAnimal victim = null;
+				for (FarmAnimal animal : animals) {
+					if (animal.getX() == x && animal.getY() == y) {
+						victim = animal;
+					}
+				}
+				interact(grid[this.getX()][this.getY() - 1], victim);
 			}
 			break;
 		case "S":
 		case "s":
 			if (this.getY() < 7) {
-				interact(grid[this.getX()][this.getY() + 1]);
+				x = getX();
+				y = getY() + 1;
+				FarmAnimal victim = null;
+				for (FarmAnimal animal : animals) {
+					if (animal.getX() == x && animal.getY() == y) {
+						victim = animal;
+					}
+				}
+				interact(grid[this.getX()][this.getY() + 1], victim);
 			}
 			break;
 		case "D":
 		case "d":
 			if (this.getX() < 7) {
-				interact(grid[this.getX() + 1][this.getY()]);
+				x = getX() + 1;
+				y = getY();
+				FarmAnimal victim = null;
+				for (FarmAnimal animal : animals) {
+					if (animal.getX() == x && animal.getY() == y) {
+						victim = animal;
+					}
+				}
+				interact(grid[this.getX() + 1][this.getY()], victim);
 			}
 			break;
 		case "A":
 		case "a":
 			if (this.getX() > 0) {
-				interact(grid[this.getX() - 1][this.getY()]);
+				x = getX() - 1;
+				y = getY();
+				FarmAnimal victim = null;
+				for (FarmAnimal animal : animals) {
+					if (animal.getX() == x && animal.getY() == y) {
+						victim = animal;
+					}
+				}
+				interact(grid[this.getX() - 1][this.getY()], victim);
 			}
 			break;
 		default:
 			break;
 		}
 	}
-	
+
 	public void kill(char symbol) {
 		switch (symbol) {
 		case 'S':
@@ -299,7 +351,7 @@ public class Player extends Renderable {
 			break;
 		}
 	}
-	
+
 	public void kill(char[][] grid, String direction, List<FarmAnimal> animals) {
 		int x = 0;
 		int y = 0;
