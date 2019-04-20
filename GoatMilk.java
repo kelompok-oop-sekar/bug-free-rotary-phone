@@ -1,2 +1,0 @@
-class GoatMilk implements FarmProduct {
-}

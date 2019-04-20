@@ -1,2 +1,4 @@
+package animal;
+
 interface MeatProducingFarmAnimal {
 }
