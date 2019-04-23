@@ -4,6 +4,7 @@ import java.util.List;
 
 import cell.Land;
 import general.Renderable;
+import general.Player;
 
 public abstract class FarmAnimal extends Renderable {
 	public static final int FULL = 10;
@@ -28,7 +29,19 @@ public abstract class FarmAnimal extends Renderable {
 		stamina--;
 	}
 
-	public abstract void move(char[][] grid, List<Land> lands);
+	public abstract void move(char[][] grid, List<Land> lands, List<FarmAnimal> animals, Player player);
+
+	public boolean isOccupied(int x, int y, List<FarmAnimal> animals, Player player) {
+		if (x == player.getX() && y == player.getY()) {
+			return true;
+		}
+		for (FarmAnimal animal : animals) {
+			if (x == animal.getX() && y == animal.getY()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public boolean isDead() {
 		return (stamina == DIE);

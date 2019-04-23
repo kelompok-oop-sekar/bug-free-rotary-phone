@@ -118,7 +118,7 @@ class Main {
 			default:
 				break;
 			}
-			moveAll(farmAnimals, lands);
+			moveAll(farmAnimals, lands, player);
 			checkHealth(farmAnimals);
 		}
 		scanner.close();
@@ -184,9 +184,9 @@ class Main {
 			}
 		}
 	}
-	private static void moveAll(List<FarmAnimal> animals, List<Land> lands) {
+	private static void moveAll(List<FarmAnimal> animals, List<Land> lands, Player player) {
 		for (FarmAnimal animal : animals) {
-			animal.move(grid, lands);
+			animal.move(grid, lands, animals, player);
 		}
 	}
 }
